@@ -5,7 +5,9 @@ description = "PySpark Basic Knowledge"
 authors = [{ name = "Shawn Yu" }]
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pyspark>=4.2.0",
+]
 
 [tool.git-changelog]
 bump = "auto"
@@ -23,3 +25,10 @@ template = "angular"
 version-regex = "^## \\[(?P<version>v?[^\\]]+)"
 versioning = "semver"
 zerover = false
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "git-changelog>=2.9.6",
+    "ruff>=0.16.3",
+]
