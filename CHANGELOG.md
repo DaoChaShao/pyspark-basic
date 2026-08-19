@@ -5,6 +5,7 @@
 
 ### Features
 
+- **project:** initialize PySpark basic project with core functionality ([d839b88](https://github.com/DaoChaShao/pyspark-basic/commit/d839b88bea2b4c5ac02d5091da9e67a12df24642))
 - **data:** add student records to spark dataset ([ae065ca](https://github.com/DaoChaShao/pyspark-basic/commit/ae065ca2b63f9702d1fcaa4e28067a941babfb00))
 - **deps:** add faker and numpy dependencies with resolution markers ([542b439](https://github.com/DaoChaShao/pyspark-basic/commit/542b439ba06b702fc999e8cc3f49b884dc890a1f))
 - **utils:** add PySpark utility module with context manager and data generation tools ([3bcaaf8](https://github.com/DaoChaShao/pyspark-basic/commit/3bcaaf8788907d0dd575c10d6065f64478c987d9))
@@ -22,6 +23,8 @@
 
 ### Chore
 
+- **deps:** pin pandas-stubs version to specific release ([dd49a44](https://github.com/DaoChaShao/pyspark-basic/commit/dd49a44cc359734faeb0ea98c72dc20467c8bb86))
+- **deps:** update pandas-stubs dependency version ([831c946](https://github.com/DaoChaShao/pyspark-basic/commit/831c946f37b8478445c10e2f961625654fdc959c))
 - **utils:** add gitignore for python project files ([d8dc71a](https://github.com/DaoChaShao/pyspark-basic/commit/d8dc71a750c8bf9a1a0817d22de3d8771342c407))
 - **data:** add .gitignore for Python project ([f48faab](https://github.com/DaoChaShao/pyspark-basic/commit/f48faaba977d50a039f92943ed215b522fc41a51))
 - **project:** initialize project with changelog and basic setup ([2e806a1](https://github.com/DaoChaShao/pyspark-basic/commit/2e806a1427c68beb434ffda45cc3b21189df2900))
