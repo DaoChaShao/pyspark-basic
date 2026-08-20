@@ -10,7 +10,6 @@ from faker import Faker
 from pathlib import Path
 from pprint import pprint
 from pyspark.sql import SparkSession, DataFrame
-from shutil import move, rmtree
 from typing import Any, Literal, Self
 
 
@@ -27,9 +26,9 @@ class SparkEngineStarter:
         self._name = app_name
         self._master = master
         self._dis = display
-        self._spark: SparkSession | None = None
+        self._engine: SparkSession | None = None
 
-    def _start(self) -> SparkSession:
+    def _start_engine(self) -> SparkSession:
         """
         Start and return a Spark session.
         :return: Spark session.
@@ -41,8 +40,8 @@ class SparkEngineStarter:
         Start and return a Spark session.
         :return: Spark session.
         """
-        self._spark = self._start()
-        return self._spark
+        self._engine = self._start_engine()
+        return self._engine
 
     @property
     def spark(self) -> SparkSession:
@@ -50,8 +49,8 @@ class SparkEngineStarter:
         Return the Spark session.
         :return: Spark session.
         """
-        if self._spark is None: raise RuntimeError("Spark engine has not been started.")
-        return self._spark
+        if self._engine is None: raise RuntimeError("Spark engine has not been started.")
+        return self._engine
 
     def __enter__(self) -> Self:
         """
@@ -69,9 +68,9 @@ class SparkEngineStarter:
         :param traceback: Traceback object.
         :return: Whether to suppress the exception.
         """
-        if self._spark is not None:
-            self._spark.stop()
-            self._spark = None
+        if self._engine is not None:
+            self._engine.stop()
+            self._engine = None
 
     def __repr__(self) -> str:
         """
@@ -121,7 +120,47 @@ def spark_csv(
     """
     dataframe: DataFrame = spark.read.csv(str(filepath), header=header, inferSchema=infer_schema)
     if display:
-        print(f"CSV data loaded from: {filepath}")
+        print(f"CSV data loaded from: {filepath}", end="\n\n")
+        dataframe.printSchema()
+        dataframe.show()
+    return dataframe
+
+
+def spark_json(
+        spark: SparkSession, filepath: str | Path,
+        *,
+        display: bool = True
+) -> DataFrame:
+    """
+    Read a JSON dataset into a Spark DataFrame.
+    :param spark: Active Spark session used to read the JSON data.
+    :param filepath: Path to the JSON file or Spark JSON output directory.
+    :param display: Whether to display information about the loaded data.
+    :return: Spark DataFrame containing the JSON data.
+    """
+    dataframe: DataFrame = spark.read.json(str(filepath))
+    if display:
+        print(f"JSON data loaded from: {filepath}", end="\n\n")
+        dataframe.printSchema()
+        dataframe.show()
+    return dataframe
+
+
+def spark_parquet(
+        spark: SparkSession, filepath: str | Path,
+        *,
+        display: bool = True
+) -> DataFrame:
+    """
+    Read a Parquet dataset into a Spark DataFrame.
+    :param spark: Active Spark session used to read the Parquet data.
+    :param filepath: Path to the Parquet file or Spark Parquet output directory.
+    :param display: Whether to display information about the loaded data.
+    :return: Spark DataFrame containing the Parquet data.
+    """
+    dataframe: DataFrame = spark.read.parquet(str(filepath))
+    if display:
+        print(f"Parquet data loaded from: {filepath}", end="\n\n")
         dataframe.printSchema()
         dataframe.show()
     return dataframe
