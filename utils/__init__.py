@@ -23,10 +23,10 @@ __version__ = "0.1.0"
 
 from .PS import (SparkEngineStarter,
                  fake_data,
-                 spark_csv)
+                 spark_csv, spark_json, spark_parquet)
 
 __all__ = [
     "SparkEngineStarter",
     "fake_data",
-    "spark_csv"
+    "spark_csv", "spark_json", "spark_parquet"
 ]
