@@ -1,16 +1,17 @@
 #!/usr/bin/env python3.12
 # -*- Coding: UTF-8 -*-
-# @Time     :   2026/8/20 01:53
+# @Time     :   2026/8/20 18:56
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   08_read_csv.py
+# @File     :   14_when.py
 # @Desc     :   
 
 from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import col, when
 from pyspark.sql.types import (StructType, StructField,
                                StringType, IntegerType)
 
-from utils import fake_data, SparkEngineStarter, spark_csv
+from utils import fake_data, SparkEngineStarter
 
 
 def main() -> None:
@@ -31,11 +32,15 @@ def main() -> None:
         spark: SparkSession = engine.start()
         df: DataFrame = spark.createDataFrame(data, schema=schema, verifySchema=True)
 
-        # Save dataframe into CSV file
-        # df: DataFrame = spark_csv(spark, "data/pandas_students.csv")
-        df: DataFrame = spark_csv(spark, "data/spark_students.csv")
+        df = df.withColumn(
+            "level",
+            when(col("score") >= 90, "A")
+            .when(col("score") >= 80, "B")
+            .when(col("score") >= 70, "C")
+            .when(col("score") >= 60, "D")
+            .otherwise("F")
+        )
         df.show()
-        df.printSchema()
 
 
 if __name__ == "__main__":
