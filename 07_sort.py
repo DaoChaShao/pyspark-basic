@@ -1,13 +1,12 @@
 #!/usr/bin/env python3.12
 # -*- Coding: UTF-8 -*-
-# @Time     :   2026/8/20 01:33
+# @Time     :   2026/8/20 17:44
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   06_polymerisation.py
+# @File     :   07_sort.py
 # @Desc     :   
 
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, avg
 from pyspark.sql.types import (StructType, StructField,
                                StringType, IntegerType)
 
@@ -32,9 +31,9 @@ def main() -> None:
         spark: SparkSession = engine.start()
         df: DataFrame = spark.createDataFrame(data, schema=schema, verifySchema=True)
 
-        # Polymerisation
-        df.agg(avg(col("score")).alias("avg_score")).show()
-        df.groupBy("gender").agg(avg(col("score")).alias("avg_score")).show()
+        # Create new column and relevant dataframe
+        df.sort("score", ascending=False).show()
+        df.sort("score", ascending=True).show()
 
 
 if __name__ == "__main__":
